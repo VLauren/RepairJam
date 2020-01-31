@@ -19,6 +19,19 @@ void URepMove::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorCo
 	FHitResult Hit;
 	TickMove = FMath::Lerp(TickMove, InputVector * speed * DeltaTime, 0.2f);
 	SafeMoveUpdatedComponent(TickMove, UpdatedComponent->GetComponentRotation(), true, Hit);
+
+	// Orientacion del modelo
+	if (!InputVector.IsNearlyZero())// && IsGrounded() && jumpFrames <= 0)
+	{
+		// Target rotation
+		FRotator ctrlRot = InputVector.Rotation();
+		// float rotLerpSpeed = ((ACroshPawn*)GetOwner())->RotationLerpSpeed;
+		float rotLerpSpeed = 0.1f;
+
+		// Rotate character towards target rotation
+		CurrentRotation = FMath::Lerp(CurrentRotation, ctrlRot, rotLerpSpeed);
+		UpdatedComponent->GetOwner()->SetActorRotation(CurrentRotation);
+	}
 }
 
 bool URepMove::IsMoving()

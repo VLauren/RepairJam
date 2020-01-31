@@ -16,6 +16,7 @@ class REPAIRJAM_API URepMove : public UPawnMovementComponent
 
 private:
 
+	FRotator CurrentRotation;
 	FVector TickMove;
 	bool moving;
 
