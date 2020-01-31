@@ -12,7 +12,6 @@ ARepPawn::ARepPawn()
 	RootComponent = CapsuleComponent;
 
 	CapsuleComponent->SetVisibility(true);
-	CapsuleComponent->SetVisibility(false);
 
 	// Malla del personaje
 	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
