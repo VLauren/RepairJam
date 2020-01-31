@@ -2,9 +2,9 @@
 
 using UnrealBuildTool;
 
-public class RepairJam_ : ModuleRules
+public class RepairJam : ModuleRules
 {
-	public RepairJam_(ReadOnlyTargetRules Target) : base(Target)
+	public RepairJam(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 	

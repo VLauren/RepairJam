@@ -3,12 +3,12 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class RepairJam_EditorTarget : TargetRules
+public class RepairJamEditorTarget : TargetRules
 {
-	public RepairJam_EditorTarget(TargetInfo Target) : base(Target)
+	public RepairJamEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
 
-		ExtraModuleNames.AddRange( new string[] { "RepairJam_" } );
+		ExtraModuleNames.AddRange( new string[] { "RepairJam" } );
 	}
 }

@@ -5,7 +5,7 @@
 	"Description": "",
 	"Modules": [
 		{
-			"Name": "RepairJam_",
+			"Name": "RepairJam",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}

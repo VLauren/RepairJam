@@ -3,12 +3,12 @@
 using UnrealBuildTool;
 using System.Collections.Generic;
 
-public class RepairJam_Target : TargetRules
+public class RepairJamTarget : TargetRules
 {
-	public RepairJam_Target(TargetInfo Target) : base(Target)
+	public RepairJamTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
 
-		ExtraModuleNames.AddRange( new string[] { "RepairJam_" } );
+		ExtraModuleNames.AddRange( new string[] { "RepairJam" } );
 	}
 }

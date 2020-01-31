@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "RepairJam_GameModeBase.generated.h"
+#include "RepairJamGameModeBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class REPAIRJAM__API ARepairJam_GameModeBase : public AGameModeBase
+class REPAIRJAM_API ARepairJamGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
