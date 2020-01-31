@@ -4,6 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
+#include "Runtime/Engine/Classes/Components/CapsuleComponent.h"
+#include "Runtime/Engine/Classes/Components/SkeletalMeshComponent.h"
+#include "RepMove.h"
 #include "RepPawn.generated.h"
 
 UCLASS()
@@ -12,18 +15,32 @@ class REPAIRJAM_API ARepPawn : public APawn
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this pawn's properties
-	ARepPawn();
+
+	UPROPERTY(EditAnywhere, Category = "Movement")
+		float MovementSpeed;
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		UCapsuleComponent* CapsuleComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		USkeletalMeshComponent* Mesh;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		URepMove* Movement;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 
-	// Called to bind functionality to input
+	ARepPawn();
+	virtual void Tick(float DeltaTime) override;
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+
+protected:
+
+	virtual void BeginPlay() override;
+
+private:
+
+	void MoveForward(float AxisValue);
+	void MoveRight(float AxisValue);
 
 };

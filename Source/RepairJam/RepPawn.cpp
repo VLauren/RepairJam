@@ -1,34 +1,67 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "RepPawn.h"
 
-// Sets default values
 ARepPawn::ARepPawn()
 {
- 	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	// Capsula del personaje (componente raiz)
+	CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
+	CapsuleComponent->InitCapsuleSize(34.0f, 65.0f);
+	CapsuleComponent->CanCharacterStepUpOn = ECB_No;
+	CapsuleComponent->bDynamicObstacle = true;
+	RootComponent = CapsuleComponent;
+
+	CapsuleComponent->SetVisibility(true);
+	CapsuleComponent->SetVisibility(false);
+
+	// Malla del personaje
+	Mesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Mesh"));
+	if (Mesh != nullptr)
+	{
+		Mesh->AlwaysLoadOnClient = true;
+		Mesh->bOwnerNoSee = false;
+		Mesh->VisibilityBasedAnimTickOption = EVisibilityBasedAnimTickOption::AlwaysTickPose;
+		Mesh->bCastDynamicShadow = true;
+		Mesh->PrimaryComponentTick.TickGroup = TG_PrePhysics;
+		Mesh->SetupAttachment(CapsuleComponent);
+		Mesh->SetGenerateOverlapEvents(false);
+		Mesh->SetCanEverAffectNavigation(false);
+	}
+
+	// Component de movimiento
+	Movement = CreateDefaultSubobject<URepMove>(TEXT("Movement"));
+	Movement->UpdatedComponent = RootComponent;
+
+	// Valores por defecto
+	MovementSpeed = 300.0f;
 }
 
-// Called when the game starts or when spawned
 void ARepPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
-// Called every frame
 void ARepPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
-// Called to bind functionality to input
 void ARepPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+	// Input de movimiento
+	PlayerInputComponent->BindAxis("MoveRight", this, &ARepPawn::MoveRight);
+	PlayerInputComponent->BindAxis("MoveForward", this, &ARepPawn::MoveForward);
+}
+
+void ARepPawn::MoveForward(float AxisValue)
+{
+	Movement->AddInputVector(AxisValue * FVector::ForwardVector);
+}
+
+void ARepPawn::MoveRight(float AxisValue)
+{
+	Movement->AddInputVector(AxisValue * FVector::RightVector);
 }
 
