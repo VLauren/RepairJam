@@ -19,30 +19,36 @@ void URepMove::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorCo
 
 	// ====================
 
-	/*
 	// direccion calculada relativo a camara
 
-	FHitResult Hit;
-	TickMove = FMath::Lerp(TickMove, InputVector * speed * DeltaTime, 0.2f);
-	SafeMoveUpdatedComponent(TickMove, UpdatedComponent->GetComponentRotation(), true, Hit);
-
-	// Orientacion del modelo
-	if (!InputVector.IsNearlyZero())// && IsGrounded() && jumpFrames <= 0)
+	if (Camera != nullptr)
 	{
-		// Target rotation
-		FRotator ctrlRot = InputVector.Rotation();
-		// float rotLerpSpeed = ((ACroshPawn*)GetOwner())->RotationLerpSpeed;
-		float rotLerpSpeed = 0.1f;
+		FVector camFwd = Camera->GetActorForwardVector();
+		camFwd.Z = 0;
+		FVector move = camFwd.Rotation().RotateVector(InputVector);
 
-		// Rotate character towards target rotation
-		CurrentRotation = FMath::Lerp(CurrentRotation, ctrlRot, rotLerpSpeed);
-		UpdatedComponent->GetOwner()->SetActorRotation(CurrentRotation);
+		FHitResult Hit;
+		TickMove = FMath::Lerp(TickMove,  move * speed * DeltaTime, 0.2f);
+		SafeMoveUpdatedComponent(TickMove, UpdatedComponent->GetComponentRotation(), true, Hit);
+
+		// Orientacion del modelo
+		if (!InputVector.IsNearlyZero())// && IsGrounded() && jumpFrames <= 0)
+		{
+			// Target rotation
+			FRotator ctrlRot = move.Rotation();
+			// float rotLerpSpeed = ((ACroshPawn*)GetOwner())->RotationLerpSpeed;
+			float rotLerpSpeed = 0.1f;
+
+			// Rotate character towards target rotation
+			CurrentRotation = FMath::Lerp(CurrentRotation, ctrlRot, rotLerpSpeed);
+			UpdatedComponent->GetOwner()->SetActorRotation(CurrentRotation);
+		}
 	}
-	*/
 
 
 	// ====================
 
+	/*
 	FVector forward = GetOwner()->GetActorForwardVector();
 
 	if (InputVector.X > 0)
@@ -70,6 +76,8 @@ void URepMove::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorCo
 		CurrentRotation = FMath::Lerp(CurrentRotation, targetRot, rotLerpSpeed);
 		UpdatedComponent->GetOwner()->SetActorRotation(CurrentRotation);
 	}
+	*/
+
 	// ====================
 
 	/*
