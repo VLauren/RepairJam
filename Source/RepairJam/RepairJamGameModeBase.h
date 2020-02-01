@@ -14,4 +14,8 @@ class REPAIRJAM_API ARepairJamGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
+public:
+
+	UFUNCTION(BlueprintPure)
+		FRotator SLerp(FRotator A, FRotator B, float alpha);
 };
