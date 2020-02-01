@@ -33,7 +33,7 @@ ARepPawn::ARepPawn()
 
 	// Valores por defecto
 	MovementSpeed = 300.0f;
-	RotationSpeed = 300.0f;
+	RotationSpeed = 90.0f;
 }
 
 void ARepPawn::BeginPlay()

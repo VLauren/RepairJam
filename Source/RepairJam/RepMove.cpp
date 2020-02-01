@@ -23,6 +23,8 @@ void URepMove::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorCo
 
 	if (InputVector.X > 0)
 		TickMove = FMath::Lerp(TickMove, InputVector.X * forward * speed * DeltaTime, 0.2f);
+	else if(InputVector.Y != 0)
+		TickMove = FMath::Lerp(TickMove, InputVector.X * forward * 0.5f * speed * DeltaTime, 0.2f);
 	else
 		TickMove = FMath::Lerp(TickMove, FVector::ZeroVector, 0.2f);
 
@@ -37,6 +39,8 @@ void URepMove::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorCo
 
 		// Target rotation
 		FRotator targetRot = CurrentRotation.Add(0, DeltaTime * rotSpeed * InputVector.Y, 0);
+		if (InputVector.X < 0 && InputVector.Y == 0)
+			targetRot = CurrentRotation.Add(0, DeltaTime * rotSpeed * 1, 0);
 
 		// Rotate character towards target rotation
 		CurrentRotation = FMath::Lerp(CurrentRotation, targetRot, rotLerpSpeed);

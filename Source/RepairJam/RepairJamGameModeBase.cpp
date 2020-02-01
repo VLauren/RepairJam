@@ -3,3 +3,7 @@
 
 #include "RepairJamGameModeBase.h"
 
+FRotator ARepairJamGameModeBase::SLerp(FRotator A, FRotator B, float alpha)
+{
+	return FQuat::Slerp(A.Quaternion(), B.Quaternion(), alpha).Rotator();
+}
