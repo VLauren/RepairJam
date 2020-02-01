@@ -19,14 +19,38 @@ void URepMove::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorCo
 
 	// ====================
 
+	/*
+	// direccion calculada relativo a camara
+
+	FHitResult Hit;
+	TickMove = FMath::Lerp(TickMove, InputVector * speed * DeltaTime, 0.2f);
+	SafeMoveUpdatedComponent(TickMove, UpdatedComponent->GetComponentRotation(), true, Hit);
+
+	// Orientacion del modelo
+	if (!InputVector.IsNearlyZero())// && IsGrounded() && jumpFrames <= 0)
+	{
+		// Target rotation
+		FRotator ctrlRot = InputVector.Rotation();
+		// float rotLerpSpeed = ((ACroshPawn*)GetOwner())->RotationLerpSpeed;
+		float rotLerpSpeed = 0.1f;
+
+		// Rotate character towards target rotation
+		CurrentRotation = FMath::Lerp(CurrentRotation, ctrlRot, rotLerpSpeed);
+		UpdatedComponent->GetOwner()->SetActorRotation(CurrentRotation);
+	}
+	*/
+
+
+	// ====================
+
 	FVector forward = GetOwner()->GetActorForwardVector();
 
 	if (InputVector.X > 0)
 		TickMove = FMath::Lerp(TickMove, InputVector.X * forward * speed * DeltaTime, 0.2f);
-	else if(InputVector.Y != 0)
-		TickMove = FMath::Lerp(TickMove, InputVector.X * forward * 0.5f * speed * DeltaTime, 0.2f);
-	else
-		TickMove = FMath::Lerp(TickMove, FVector::ZeroVector, 0.2f);
+	// else if(InputVector.Y != 0 && InputVector.X <= 0)
+		// TickMove = FMath::Lerp(TickMove, forward * speed * DeltaTime, 0.2f);
+	// else
+		// TickMove = FMath::Lerp(TickMove, FVector::ZeroVector, 0.2f);
 
 	FHitResult Hit;
 	SafeMoveUpdatedComponent(TickMove, UpdatedComponent->GetComponentRotation(), true, Hit);
