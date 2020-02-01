@@ -9,13 +9,42 @@ void URepMove::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorCo
 	// Movimiento Horizontal
 
 	float speed = ((ARepPawn*)GetOwner())->MovementSpeed;
+	float rotSpeed = ((ARepPawn*)GetOwner())->RotationSpeed;
 	FVector InputVector = ConsumeInputVector().GetClampedToMaxSize(1.0f);
 
-	if (InputVector.Size() > 0.0f)
+	if (InputVector.X > 0.0f || InputVector.Y != 0)
 		moving = true;
 	else
 		moving = false;
 
+	// ====================
+
+	FVector forward = GetOwner()->GetActorForwardVector();
+
+	if (InputVector.X > 0)
+		TickMove = FMath::Lerp(TickMove, InputVector.X * forward * speed * DeltaTime, 0.2f);
+	else
+		TickMove = FMath::Lerp(TickMove, FVector::ZeroVector, 0.2f);
+
+	FHitResult Hit;
+	SafeMoveUpdatedComponent(TickMove, UpdatedComponent->GetComponentRotation(), true, Hit);
+
+
+	// Orientacion del modelo
+	if (!InputVector.IsNearlyZero())// && IsGrounded() && jumpFrames <= 0)
+	{
+		float rotLerpSpeed = 0.01f;
+
+		// Target rotation
+		FRotator targetRot = CurrentRotation.Add(0, DeltaTime * rotSpeed * InputVector.Y, 0);
+
+		// Rotate character towards target rotation
+		CurrentRotation = FMath::Lerp(CurrentRotation, targetRot, rotLerpSpeed);
+		UpdatedComponent->GetOwner()->SetActorRotation(CurrentRotation);
+	}
+	// ====================
+
+	/*
 	FHitResult Hit;
 	TickMove = FMath::Lerp(TickMove, InputVector * speed * DeltaTime, 0.2f);
 	SafeMoveUpdatedComponent(TickMove, UpdatedComponent->GetComponentRotation(), true, Hit);
@@ -32,6 +61,7 @@ void URepMove::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorCo
 		CurrentRotation = FMath::Lerp(CurrentRotation, ctrlRot, rotLerpSpeed);
 		UpdatedComponent->GetOwner()->SetActorRotation(CurrentRotation);
 	}
+	*/
 }
 
 bool URepMove::IsMoving()

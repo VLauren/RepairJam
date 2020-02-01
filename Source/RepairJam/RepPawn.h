@@ -18,6 +18,8 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Movement")
 		float MovementSpeed;
+	UPROPERTY(EditAnywhere, Category = "Movement")
+		float RotationSpeed;
 
 protected:
 
