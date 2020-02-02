@@ -12,7 +12,7 @@ void URepMove::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorCo
 	float rotSpeed = ((ARepPawn*)GetOwner())->RotationSpeed;
 	FVector InputVector = ConsumeInputVector().GetClampedToMaxSize(1.0f);
 
-	if (InputVector.X > 0.0f || InputVector.Y != 0)
+	if (InputVector.X != 0.0f || InputVector.Y != 0)
 		moving = true;
 	else
 		moving = false;
