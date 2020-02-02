@@ -31,6 +31,10 @@ void URepMove::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorCo
 		TickMove = FMath::Lerp(TickMove,  move * speed * DeltaTime, 0.2f);
 		SafeMoveUpdatedComponent(TickMove, UpdatedComponent->GetComponentRotation(), true, Hit);
 
+		// Resbalar por la superficie
+		if (Hit.IsValidBlockingHit())
+			SlideAlongSurface(TickMove, 1.f - Hit.Time, Hit.Normal, Hit);
+
 		// Orientacion del modelo
 		if (!InputVector.IsNearlyZero())// && IsGrounded() && jumpFrames <= 0)
 		{
